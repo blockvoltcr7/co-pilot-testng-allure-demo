@@ -1,27 +1,31 @@
 package AllureTest;
 
-import java.sql.*;
+import Utils.DBUtils;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TestPostGresSQLConnection {
 
-    // Database connection parameters
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/co-pilot-demo";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "superuser";
+    private Connection conn = null;
+    private PreparedStatement stmt = null;
+    private ResultSet rs = null;
 
-    public static void main(String[] args) throws SQLException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+    @BeforeClass
+    public void setUp() throws SQLException {
+        // Establish the connection using the DBUtils class
+        conn = DBUtils.getConnection();
+        System.out.println("Connected to the PostgreSQL server successfully.");
+    }
 
+    @Test
+    public void testDatabaseConnection() {
         try {
-            // Load the PostgreSQL JDBC driver
-            Class.forName("org.postgresql.Driver");
-
-            // Establish the connection
-            conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
-            System.out.println("Connected to the PostgreSQL server successfully.");
-
             // Execute a query to test the connection
             String sql = "SELECT * FROM employees";
             stmt = conn.prepareStatement(sql);
@@ -35,18 +39,14 @@ public class TestPostGresSQLConnection {
                 String email = rs.getString("email");
                 System.out.printf("ID: %d, Name: %s %s, Email: %s%n", employeeId, firstName, lastName, email);
             }
-
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Close resources
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+    }
+
+    @AfterClass
+    public void tearDown() {
+        // Close resources using the DBUtils class
+        DBUtils.closeResources(rs, stmt, conn);
     }
 }

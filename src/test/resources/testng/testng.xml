@@ -4,6 +4,8 @@
         <classes>
             <class name="AllureTest.AllureTestFailurePath" />
             <class name="AllureTest.AllureTestHappyPath" />
+            <class name="AllureTest.TestPostGresSQLConnection" />
+            <class name="AllureTest.TestEnvValue" />
         </classes>
     </test>
 </suite>
