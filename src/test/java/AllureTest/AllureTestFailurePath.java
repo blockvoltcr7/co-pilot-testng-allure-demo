@@ -11,7 +11,7 @@ public class AllureTestFailurePath {
     @Description("Lambda step test1")
     public void testMethod() {
         System.out.println("Hello, world! im going to fail on purpose");
-        Assert.assertEquals(1, 2, "This test is expected to fail");
+        Assert.assertEquals(34234, 423423, "Passport ID does not match the database entry for passport ID");
     }
 
 
