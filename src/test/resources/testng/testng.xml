@@ -1,9 +1,0 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Allure Test Suite">
-    <test name="Allure Test">
-        <classes>
-            <class name="AllureTest.EmployeesDBTest" />
-            <class name="AllureTest.DeviceCapacityAPITest" />
-        </classes>
-    </test>
-</suite>
