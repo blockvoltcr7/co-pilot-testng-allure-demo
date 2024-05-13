@@ -48,6 +48,7 @@ public class BeforeAndAfterSetup {
     private static void writeToFile(String directoryPath, String content) throws IOException {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         String filePath = directoryPath + "/bug-report-" + timestamp + ".md";
+        System.out.println("Writing bug report to file: " + filePath);
         Files.write(Paths.get(filePath), content.getBytes());
     }
 
