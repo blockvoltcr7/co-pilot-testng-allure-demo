@@ -1,4 +1,4 @@
-**Bug Report**
+**Bug Report ** [Provide #]
 
 **Title:** [Brief but clear summary of the bug]
 
