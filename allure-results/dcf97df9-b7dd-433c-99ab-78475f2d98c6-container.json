@@ -1,0 +1,1 @@
+{"uuid":"dcf97df9-b7dd-433c-99ab-78475f2d98c6","name":"AllureTest.EmployeesDBTest","children":["9f9e7a93-de7e-45b6-970a-b636ab9f38fa"],"befores":[{"name":"setUp","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1715715736059,"stop":1715715736187}],"afters":[],"start":1715715736052,"stop":1715715737531}
