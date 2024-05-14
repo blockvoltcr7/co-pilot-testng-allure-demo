@@ -1,4 +1,4 @@
-**Bug Report Template**
+**Bug Report**
 
 **Title:** [Brief but clear summary of the bug]
 
