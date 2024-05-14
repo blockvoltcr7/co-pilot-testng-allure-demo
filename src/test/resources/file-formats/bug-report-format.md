@@ -2,6 +2,8 @@
 
 **Title:** [Brief but clear summary of the bug]
 
+**Summary:** [provice a paragraph summarizing the bug report and test results]
+
 **Epic:** [add the epic id or name here)]
 
 **Issue:** [add jira id]
@@ -15,7 +17,7 @@
 **Environment:**
 
 * **OS:** [Operating system and version]
-* **Browser:** [Browser name and version]
+* **Browser:** [If Applicable - Browser name and version]
 * **Device:** [If applicable - type and model]
 * **Application Version:** [If applicable]
 * **Relevant Extensions/Plugins:** [If applicable]
