@@ -33,9 +33,9 @@ public class BeforeAndAfterSetup {
         // Convert JSON files to a single prompt
         String fileContentPrompt = buildJsonFileContentPrompt(jsonFilesContent);
         String bugReportFormat = readFileContent("src/test/resources/file-formats/bug-report-format.md");
-        String answer = model.generate("Analyze the json formatted test results from my test automated tests. " +
-                "The results are in the following JSON files: " + fileContentPrompt + ". Finally create a bug report in the following format: \n" +
-                bugReportFormat);
+        String instructions = readFileContent("src/test/resources/Prompts/BugReportInstructions.txt");
+
+        String answer = model.generate(instructions+" "+fileContentPrompt+" "+bugReportFormat);
         try {
             writeToFile("src/test/resources/bug-reports", answer);
         } catch (IOException e) {
