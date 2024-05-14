@@ -75,7 +75,7 @@ public class OpenAIChatsWithReport {
         File directory = new File(directoryPath);
 
         if (directory.isDirectory()) {
-            File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
+            File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith("results.json"));
 
             if (files != null) {
                 for (File file : files) {
