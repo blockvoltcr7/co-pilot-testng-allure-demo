@@ -16,7 +16,6 @@ import java.io.IOException;
 public class DeviceCapacityAPITest extends BeforeAndAfterSetup {
 
     @Test
-    @Ignore
     @Epic("EPIC-54534: Whole Sale Device Management for all promo devices")
     @Issue("JIRA-56353")
     @Feature("Verify the capacity of the apple promotional devices")

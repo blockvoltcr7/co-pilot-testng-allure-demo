@@ -25,6 +25,7 @@ public class EmployeesDBTest extends BeforeAndAfterSetup {
         conn = DBUtils.getConnection();
         System.out.println("Connected to the PostgreSQL server successfully.");
     }
+
     @Test
     @Epic("EPIC-5679: Employee DB Management")
     @Issue("JIRA-1234")

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class DBUtils {
 
     // Database connection parameters
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/co-pilot-demo";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5433/template1";
     private static final String USER = "postgres";
     private static final String PASSWORD = "superuser";
 
