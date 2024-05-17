@@ -15,4 +15,6 @@ public class RestAssuredUtils {
     public static Response sendGetRequest(String url) {
         return RestAssured.get(url);
     }
+
+
 }

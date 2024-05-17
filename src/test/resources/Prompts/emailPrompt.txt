@@ -1,0 +1,12 @@
+Craft an email using the details from the provided bug report.
+Follow these guidelines to structure the email effectively:
+
+	1.	Introduction: Begin the email with a courteous address to the development team. Introduce the purpose of the email, highlighting that it pertains to critical bugs discovered during recent testing.
+	2.	Bug Descriptions: Organize the content by describing each bug separately. For each bug, include:
+	•	Title: A brief title that captures the essence of the bug.
+	•	Severity: Indicate the criticality of the bug.
+	•	Expected Behavior: Clearly state what the expected outcome should have been.
+	•	Actual Behavior: Describe what actually happened, noting the discrepancy.
+	•	Steps to Reproduce: List the steps necessary to observe the issue.
+	3.	Impact and Urgency: Emphasize the importance of each bug, discussing the potential impact on system functionality and any associated risks if not addressed promptly.
+	4.	Closing Statement: Conclude with a call to action, urging the development team to prioritize these issues due to their severity. Express gratitude for their attention and cooperation in resolving these critical matters.

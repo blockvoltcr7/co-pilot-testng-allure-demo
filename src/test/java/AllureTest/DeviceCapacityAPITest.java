@@ -24,6 +24,9 @@ public class DeviceCapacityAPITest extends BeforeAndAfterSetup {
     public void deviceCapacityAPITestForApple() {
         // Send a GET request to the specified URL
         Response response = RestAssuredUtils.sendGetRequest("https://api.restful-api.dev/objects?id=3");
+
+        Allure.addAttachment("Response Body", response.asString());
+
         // Parse the response
         JSONArray jsonArray = new JSONArray(response.asString());
         // Get the first object in the array
@@ -36,6 +39,8 @@ public class DeviceCapacityAPITest extends BeforeAndAfterSetup {
         // Print the color and capacity GB
         System.out.println("Color: " + color);
         System.out.println("Capacity GB: " + capacityGB);
+
+
         // Assert that the capacity GB equals 256
         Assert.assertEquals(capacityGB, 256, "Capacity GB does not match expected value");
 

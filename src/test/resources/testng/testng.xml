@@ -3,7 +3,8 @@
     <test name="Allure Test">
         <classes>
             <class name="AllureTest.EmployeesDBTest" />
-            <class name="AllureTest.DeviceCapacityAPITest" />
+<!--            <class name="AllureTest.DeviceCapacityAPITest" />-->
+            <class name="AllureTest.StockGlobalQuotesTest" />
         </classes>
     </test>
 </suite>

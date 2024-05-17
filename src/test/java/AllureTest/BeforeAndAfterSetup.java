@@ -15,52 +15,88 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Setup class for before and after suite actions in Allure TestNG tests.
+ * This class is responsible for initializing and tearing down resources before and after all tests are run.
+ */
 public class BeforeAndAfterSetup {
 
 
+
+    /**
+     * Method executed before the test suite starts.
+     * It can be used for setup actions that are necessary before any test is run.
+     */
     @BeforeSuite
     public void beforeSuite() {
         // Your cleanup code here
         System.out.println("starting test before suite...");
     }
+
+    /**
+     * Method executed after the test suite has finished.
+     * It performs cleanup actions, generates bug reports based on test results, and sends them via email.
+     * Utilizes the OpenAI and LangChain4j libraries to analyze test results and generate reports.
+     *
+     * @throws IOException if there is an issue with file operations
+     */
     @AfterSuite
     public void tearDown() throws IOException {
         // Initialize OpenAI Client
         String apiKey = System.getenv("OPENAI_API_KEY"); // Replace with your OpenAI API key
         ChatLanguageModel model = OpenAiChatModel.withApiKey(apiKey);
         // Load and prepare JSON files to analyze
-        List<String> jsonFilesContent = loadJsonFilesFromDirectory("allure-results");
+        List<String> testResultsArray = loadJsonFilesFromDirectory("allure-results");
         // Convert JSON files to a single prompt
-        String fileContentPrompt = buildJsonFileContentPrompt(jsonFilesContent);
+        String testResults = buildJsonFileContentPrompt(testResultsArray);
+        System.out.println("testResults: " + testResults);
         String bugReportFormat = readFileContent("src/test/resources/file-formats/bug-report-format.md");
         String instructions = readFileContent("src/test/resources/Prompts/BugReportInstructions.txt");
 
-        String answer = model.generate(instructions+" "+fileContentPrompt+" "+bugReportFormat);
+        String bug_report = model.generate(instructions + " " + testResults + " " + bugReportFormat);
+
+        String emailInstructions = readFileContent("src/test/resources/Prompts/emailPrompt.txt");
+
+        String email = model.generate(emailInstructions+"\n" +
+                bug_report);
         try {
-            writeToFile("src/test/resources/bug-reports", answer);
+            writeToFile("src/test/resources/bug-reports", "bug-report", bug_report);
+            writeToFile("src/test/resources/emails", "email-bug-report", email);
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
-        System.out.println(answer);
     }
 
-
-    private static void writeToFile(String directoryPath, String content) throws IOException {
+    /**
+     * Writes content to a file within a specified directory, appending a timestamp to the filename.
+     *
+     * @param directoryPath The directory path where the file will be created.
+     * @param fileName      The base name of the file (timestamp will be appended).
+     * @param content       The content to write to the file.
+     * @throws IOException If an I/O error occurs writing to or creating the file.
+     */
+    private static void writeToFile(String directoryPath, String fileName, String content) throws IOException {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        String filePath = directoryPath + "/bug-report-" + timestamp + ".md";
-        System.out.println("Writing bug report to file: " + filePath);
+        String filePath = directoryPath + "/" + fileName + "-" + timestamp + ".md";
         Files.write(Paths.get(filePath), content.getBytes());
     }
 
+    /**
+     * Reads the content of a file and returns it as a String.
+     *
+     * @param filePath The path of the file to read.
+     * @return The content of the file as a String.
+     * @throws IOException If an I/O error occurs reading from the file.
+     */
     private static String readFileContent(String filePath) throws IOException {
         return new String(Files.readAllBytes(Paths.get(filePath)));
     }
 
     /**
-     * Load JSON files from a directory.
+     * Loads JSON files from a specified directory and returns their content as a list of strings.
      *
-     * @param directoryPath the directory containing JSON files to be analyzed
-     * @return a list of JSON strings
+     * @param directoryPath The directory containing JSON files to be analyzed.
+     * @return A list of strings, each representing the content of a JSON file.
      */
     private static List<String> loadJsonFilesFromDirectory(String directoryPath) {
         List<String> jsonFilesContent = new ArrayList<>();
@@ -91,10 +127,10 @@ public class BeforeAndAfterSetup {
     }
 
     /**
-     * Validate if a given string is a valid JSON.
+     * Validates if a given string is a valid JSON format.
      *
-     * @param jsonString the JSON string to validate
-     * @return true if valid, false otherwise
+     * @param jsonString The JSON string to validate.
+     * @return true if the string is a valid JSON, false otherwise.
      */
     private static boolean isValidJson(String jsonString) {
         try {
@@ -107,17 +143,23 @@ public class BeforeAndAfterSetup {
     }
 
     /**
-     * Build a prompt containing the contents of multiple JSON files.
+     * Builds a single string prompt containing the contents of multiple JSON files.
      *
-     * @param jsonFilesContent a list of JSON strings
-     * @return a concatenated string prompt
+     * @param jsonFilesContent A list of JSON strings.
+     * @return A concatenated string prompt.
      */
     private static String buildJsonFileContentPrompt(List<String> jsonFilesContent) {
         StringBuilder promptBuilder = new StringBuilder();
+        int testCounter = 1; // Initialize a counter to track the number of tests
 
         for (String content : jsonFilesContent) {
-            promptBuilder.append(content).append("\n\n");
+            // Append each content with a unique ID, indicating the test number
+            promptBuilder.append("Test ID: ").append(testCounter).append("\n").append(content).append("\n\n");
+            testCounter++; // Increment the counter for the next test
         }
+
+        // Optionally, append the total number of tests at the end for clarity
+        promptBuilder.append("Total Tests: ").append(jsonFilesContent.size());
 
         return promptBuilder.toString();
     }
