@@ -1,4 +1,4 @@
-# Allure TestNG Framework Project
+# AI Bug Report Generation in Test Automation
 
 This project demonstrates the use of the Allure TestNG framework in a Java-based testing environment, with a special focus on the innovative feature of generating automated bug reports and email notifications. Utilizing AI technologies through LangChain4J and OpenAI’s GPT-4, the system analyzes test outcomes and automatically crafts detailed bug reports and corresponding emails. This integration significantly enhances test analysis and reporting capabilities, streamlining communications within development teams.
 ## Project Structure
