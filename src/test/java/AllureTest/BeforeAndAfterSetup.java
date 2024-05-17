@@ -49,6 +49,7 @@ public class BeforeAndAfterSetup {
         List<String> testResultsArray = loadJsonFilesFromDirectory("allure-results");
         // Convert JSON files to a single prompt
         String testResults = buildJsonFileContentPrompt(testResultsArray);
+        System.out.println("testResults: " + testResults);
         String bugReportFormat = readFileContent("src/test/resources/file-formats/bug-report-format.md");
         String instructions = readFileContent("src/test/resources/Prompts/BugReportInstructions.txt");
 
@@ -149,10 +150,16 @@ public class BeforeAndAfterSetup {
      */
     private static String buildJsonFileContentPrompt(List<String> jsonFilesContent) {
         StringBuilder promptBuilder = new StringBuilder();
+        int testCounter = 1; // Initialize a counter to track the number of tests
 
         for (String content : jsonFilesContent) {
-            promptBuilder.append(content).append("\n\n");
+            // Append each content with a unique ID, indicating the test number
+            promptBuilder.append("Test ID: ").append(testCounter).append("\n").append(content).append("\n\n");
+            testCounter++; // Increment the counter for the next test
         }
+
+        // Optionally, append the total number of tests at the end for clarity
+        promptBuilder.append("Total Tests: ").append(jsonFilesContent.size());
 
         return promptBuilder.toString();
     }
